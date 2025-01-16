@@ -1,0 +1,232 @@
+12-1
+package Xiti12_1;
+
+public class Zhu {
+public static void main(String[] args) {
+	Paidui paidui = new Paidui();
+	Thread zhang,li,zhao;
+	zhang = new Thread(paidui);
+	zhang.setName("张某");
+	li = new Thread(paidui);
+	li.setName("李某");
+	zhao = new Thread(paidui);
+    zhao.setName("赵某");
+    zhang.start();
+    li.start();
+    zhao.start();
+}
+}
+
+package Xiti12_1;
+
+public class Paidui implements Runnable{
+	int wukuai = 3, shikuai =0, piao = 1,ershi =0;
+   public void run() {
+	   if(Thread.currentThread().getName().equals("张某")){
+		maipiao(20);   
+	   }
+	   else if(Thread.currentThread().getName().equals("李某")){
+		   maipiao(10);
+	   }
+	   else if(Thread.currentThread().getName().equals("赵某")){
+		   maipiao(5);
+	   }
+	
+   }
+   public synchronized void maipiao(int qian) {
+	   if(qian==20) {
+		   if(piao>=1&&wukuai>=3) {
+			   wukuai = wukuai-3;
+			   piao = piao-1;
+			   ershi = ershi+1;
+			   System.out.println("张某入场，张某给"+qian+"，找给张某3张5块");
+		   }
+		   else if(piao>=1&&wukuai>=1&&shikuai>=1) {
+			   wukuai = wukuai-1;
+			   shikuai = shikuai-1;
+			   ershi = ershi +1;
+			   piao = piao-1;
+			   System.out.println("张某入场，李某给"+qian+"找给李某1张5块1张10块");
+			  
+		   }
+		    else if(piao<=0) {
+				   System.out.println("票卖完了，张某买不到票，张某很伤心");
+			   }
+		    else {
+		    	try{ 
+		    		System.out.println("钱不够找张某靠边等");
+		    		wait();
+		    		 System.out.println("张某继续买票");
+		    	}
+		    	catch(InterruptedException e) {
+		    		 System.out.println(e);
+		    	}
+		    	
+		    }
+		   notifyAll();
+   }
+	   else if(qian==10) {
+		   if(piao>=1&&wukuai>=1) {
+			   wukuai= wukuai-2;
+			   shikuai = shikuai +1;
+			   piao = piao-1;
+			   System.out.println("李某入场，李某给"+qian+"找给李某1张5块");
+		   }
+		   else if(piao<=0) {
+			   System.out.println("票卖完了，李某买不到票，李某很伤心");
+		   }
+			   else {
+			    	try{ 
+			    		System.out.println("钱不够找李某靠边等");
+			    		wait();
+			    		 System.out.println("李某继续买票");
+			    	}
+			    	catch(InterruptedException e) {
+			    		 System.out.println(e);
+			    	}
+			    	
+		   }
+		   notifyAll();
+	   }
+	   else if(qian==5) {
+		   if(piao>=1) {
+			   wukuai = wukuai+1;
+			   System.out.println("赵某入场，赵某的钱刚刚好");
+		   }
+		   else if(piao<=0){
+			   System.out.println("票卖完了，赵某买不到票，赵某很伤心");
+		   }
+			   
+	   }
+	   }
+}
+
+限时回答
+package Diwucishiyan;
+import java.io.*;
+public class Zhu{
+	public static void main(String[] args) {
+		Winandtime win = new Winandtime();
+		win.setTitle("限时回答问题");
+		win.setFile(new File("E:\\dati.txt"));
+		win.setmax(5);
+	}
+}
+
+package Diwucishiyan;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.io.*;
+public class Winandtime extends JFrame implements ActionListener,ItemListener{
+	File file;
+	int max =5;
+	int maxtime = max,score = 0;
+    javax.swing.Timer time;
+    JTextArea area;
+    JCheckBox A,B,C,D;
+    JLabel mianban1,mianban2;
+    String daan;
+    JButton button;
+    FileReader inOne;
+    BufferedReader inTwo;
+    Winandtime(){
+    	time = new javax.swing.Timer(1000, this);
+    	area = new JTextArea(2,16);
+    	setLayout(new FlowLayout());
+    	mianban1 = new JLabel("分数"+score);
+    	mianban2 = new JLabel(" ");
+    	add(mianban2);
+    	add(new JLabel("问题："));;
+    	add(area);
+    	A = new JCheckBox("A");
+    	B = new JCheckBox("B");
+    	C = new JCheckBox("C");
+    	D = new JCheckBox("D");
+    	A.addItemListener(this);
+    	B.addItemListener(this);
+    	C.addItemListener(this);
+    	D.addItemListener(this);
+    	add(A);
+    	add(B);
+    	add(C);
+    	add(D);
+    	add(mianban1);
+    	button = new JButton("再做一次");
+    	button.setEnabled(false);
+    	add(button);
+    	button.addActionListener(this);
+    	setBounds(100,100,200,200);
+    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+public void setmax(int n) {
+	max = n;
+}
+public void setFile(File f) {
+	file = f;
+	score = 0;
+	try {
+		inOne = new FileReader (file);
+		inTwo = new BufferedReader(inOne);
+		duyiti();
+		button.setEnabled(false);
+	}
+	catch(IOException exp) {
+		System.out.println("没题");
+	}
+}
+public void duyiti() {
+	area.setText(null);
+	try {
+		String s =null;
+		while((s = inTwo.readLine())!=null) {
+			if(!s.startsWith("-"))
+				area.append("\n"+s);
+			else {
+				s = s.replaceAll("-","");
+				daan = s;
+				break;
+			}
+			}
+			time.start();
+			if(s==null) {
+				inTwo.close();
+				button.setEnabled(true);
+				area.setText("题目完毕");
+				time.stop();
+			}
+		
+	}
+	catch(IOException exp) {}
+}
+public void itemStateChanged(ItemEvent e) {
+	JCheckBox box = (JCheckBox)e.getSource();
+	String str = box.getText();
+	boolean booOne = box.isSelected();
+	boolean booTwo = str.compareToIgnoreCase(daan)==0;
+	if(booOne&&booTwo) {
+		score++;
+		mianban1.setText("分数"+score);
+		time.stop();
+		maxtime = max;
+		duyiti();
+	}
+	box.setSelected(false);
+}
+public void actionPerformed(ActionEvent e) {
+	if(e.getSource()==time) {
+		mianban2.setText("剩下"+maxtime+"秒");
+		maxtime--;
+		if(maxtime<=0) {
+			maxtime = max;
+			duyiti();
+		}
+	}
+	else if(e.getSource()==button) {
+		setFile(file);
+	}
+}
+}
+

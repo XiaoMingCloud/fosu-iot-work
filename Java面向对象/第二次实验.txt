@@ -1,0 +1,285 @@
+流水线
+package Diercishiyan;
+
+public class SingGame {
+public static void main(String[] args) {
+	Line line = new Line();
+	line.kaishi();
+}
+}
+
+package Diercishiyan;
+
+import java.util.*;
+public class InputScore {
+
+	DelScore a;
+	InputScore(DelScore a)
+	{
+		this.a = a;
+	}
+	void inputscoer()
+	{
+		System.out.println("输入评委的数量");
+		Scanner ren = new Scanner(System.in);
+		int shu = ren.nextInt();
+		double fen[] = new double[shu];
+		System.out.println("输入各个评委的分数");
+		for(int i=0;i<shu;i++)
+		{
+			fen[i] = ren.nextDouble();
+		}
+		a.qushu(fen);
+	}
+	
+}
+
+package Diercishiyan;
+
+public class DelScore {
+
+	ComputerAver a;
+	DelScore(ComputerAver a)
+	{
+		this.a = a;
+	}
+	void qushu(double fen[])
+	{
+		int i,j;
+		double min;
+		double xinfen[] = new double[fen.length-2];
+		for(i=0;i<fen.length;i++)
+		{
+			for(j=i;j<fen.length;j++)
+			{
+				if(fen[i]>fen[j])
+				{
+					min=fen[i];
+					fen[i]=fen[j];
+					fen[j]=min;
+				}
+			}
+		}
+		System.out.printf("去掉一个最高分%.2f和最低分%.2f",fen[fen.length-1],fen[0]);
+		for(i=1;i<fen.length-1;i++)
+			xinfen[i-1] = fen[i];
+	
+	 a.defen(xinfen);
+    }
+}
+
+package Diercishiyan;
+
+public class ComputerAver {
+
+	void defen(double a[])
+	{
+		double sum = 0,fen;
+		for(int i=0;i<a.length;i++)
+			sum = sum + a[i];
+		fen = sum / a.length;;
+		System.out.println("选手最后得分为："+fen);
+	}
+}
+
+package Diercishiyan;
+
+public class Line {
+	ComputerAver c = new ComputerAver();
+    DelScore b = new DelScore(c);  
+	InputScore a = new InputScore(b);
+	void kaishi()
+	{
+		a.inputscoer();
+	
+	}
+
+}
+第四章编程题
+package Xiti4;
+public class Test {
+	public static void main(String[] args) {
+		CPU cpu = new CPU();
+		cpu.setSpeed(2200);
+		HardDisk disk = new HardDisk();
+		disk.setAmount(200);
+		PC pc = new PC();
+		pc.setCPU(cpu);
+		pc.setHardDisk(disk);
+		pc.show();
+	}
+
+}
+
+
+package Xiti4;
+public class CPU {
+	int speed;
+	void setSpeed(int m)
+	{
+		 speed = m;
+	}
+	int getSped()
+	{
+		return speed;
+	}
+
+}
+
+package Xiti4;
+public class HardDisk {
+	int amount;
+	void setAmount(int m)
+	{
+		amount=m;
+	}
+	 int getAmount()
+	{
+		return amount;
+	}
+
+}
+
+package Xiti4;
+public class PC {
+	int a,b;
+	CPU cpu=new CPU();
+	HardDisk HD = new HardDisk();
+	void setCPU(CPU c)
+	{
+		cpu = c;
+	}
+	void setHardDisk(HardDisk h)
+	{
+		HD=h;
+	}
+	void show()
+	{
+		a = cpu.getSped() ;
+		System.out.println("cpu速度"+a);
+		b = HD.getAmount();
+		System.out.println("硬盘容量"+b);
+	}
+
+}
+第五章编程题
+package Xiti5;
+
+public class Application {
+public static void main(String[] args) {
+	Simulator simulator = new Simulator();
+	simulator.playSound(new Dog());
+	simulator.playSound(new Cat());
+}
+}
+
+package Xiti5;
+
+public abstract class Animal {
+	abstract void cry();
+	abstract String getAnimalName();
+}
+
+package Xiti5;
+
+public class Cat extends Animal {
+
+	String getAnimalName()
+	{
+		String a = "猫";
+		return a;
+	}
+	void cry()
+	{
+		System.out.println("喵喵");
+	}
+}
+
+package Xiti5;
+
+ class Dog extends Animal {
+
+	void cry()
+	 {
+	System.out.println("汪汪");	 
+	 }
+	String getAnimalName()
+	{
+		String a="狗";
+		return a;
+	}
+}
+
+package Xiti5;
+
+public class Simulator {
+	static int i =0;
+	void playSound(Animal animal)
+	{
+		String a;
+
+		a=animal.getAnimalName();
+		System.out.printf(a+"的叫声是：");
+		animal.cry();
+    }
+}
+
+第六章编程题
+package Xiti6;
+
+public class Application {
+public static void main(String[] args) {
+	Simulator simulator = new Simulator();
+	simulator.playSound(new Dog());
+	simulator.playSound(new Cat());
+}
+}
+
+package Xiti6;
+public interface Animal {
+	abstract void Cry();
+	abstract String getAnimalName();
+}
+
+package Xiti6;
+ class Cat implements Animal{
+	 public String getAnimalName()
+	 {
+		 String a= "我是猫：";
+		 return a;
+	 }
+	 public void Cry()
+	 {
+		 System.out.println("喵喵");
+	 }
+
+}
+
+package Xiti6;
+class Dog implements Animal{
+	
+	public String getAnimalName()
+	{
+		String a="我是狗：";
+		return a;
+	}
+	public void Cry()
+	{
+		System.out.println("汪汪");
+	}
+	
+}
+
+package Xiti6;
+public class Simulator {
+int i=0;
+	void playSound(Animal animal)
+	{
+		String a;
+
+	a=animal.getAnimalName();
+	System.out.printf(a);
+	animal.Cry();
+	}
+}
+

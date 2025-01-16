@@ -1,0 +1,172 @@
+第七章
+import java.util.*;
+public class Jisuan {
+public static void main(String[] args) {
+	Scanner a = new Scanner(System.in);
+	double sum = 0;
+	int i = 0;
+	System.out.println("输入若干0-100的数，用空格或回车隔开，输入非数字为结束");
+	while (a.hasNextDouble()) {
+		double x = a.nextDouble();
+		assert x <= 100&&x>=0:"数据错误";
+		i++;
+		sum=sum+x;	
+	}
+	System.out.println("这些数的和是："+sum);
+	System.out.println("这些数的平均数是："+sum/i);
+}
+}
+
+第八章 
+一
+package Xiti8_1;
+import java.util.*;
+public class Zhu {
+public static void main(String[] args) {
+	Da da = new Da();
+	Xiao xiao = new Xiao();
+	Lian lian = new Lian();
+	Scanner scanner = new Scanner(System.in);
+	String a[] = new String[3];
+	for(int i=0;i<2;i++)
+	{
+		a[i]=scanner.next();
+	}
+	a[0]=xiao.Zhuan(a[0]);
+	a[1]=da.Zhuan(a[1]);
+	a[2]=lian.Lianjie(a[0],a[1]);
+	System.out.println(a[0]+" "+a[1]+" "+a[2]);
+}
+}
+
+package Xiti8_1;
+public class Xiao {
+	   String b;
+		String Zhuan(String a)
+		{
+			b = a.toUpperCase();
+			return b;
+		}
+}
+
+package Xiti8_1;
+public class Lian {
+
+	String c;
+	String Lianjie(String a,String b)
+	{
+		c=a.concat(b);
+		return c;
+	}
+}
+
+package Xiti8_1;
+public class Da {
+     String b;
+	String Zhuan(String a)
+	{
+		b = a.toLowerCase();
+		return b;
+	}
+}
+
+三
+package Xiti8_3;
+import java.util.*;
+import java.time.*;
+public class Shu {
+	public static void main(String[] args) {
+    int b[]=new int [3];
+   int a[]=new int[3];
+    System.out.println("请输入日期1");
+      Scanner shu = new Scanner(System.in);
+       for(int i=0;i<3;i++)	
+       {
+    	   a[i]=shu.nextInt();
+       }
+       LocalDate one = LocalDate.of(a[0], a[1], a[2]);
+       System.out.println("请输入日期2");
+       for(int i=0;i<3;i++)	
+       {
+    	   b[i]=shu.nextInt();
+       }
+       LocalDate two = LocalDate.of(b[0], b[1], b[2]);
+       Suan suan = new Suan(one,two);
+       suan.Cha();
+	}
+}
+
+package Xiti8_3;
+import java.time.*;
+import java.time.temporal.ChronoUnit;
+public class Suan {
+
+	long c;
+	LocalDate a,b;
+	Suan(LocalDate a,LocalDate b)
+	{
+		this.a = a;
+		this.b = b;
+	}
+	void Cha()
+	{
+		c = a.until(b,ChronoUnit.DAYS);
+		System.out.println("日期1和2差"+c+"天");
+	}
+	
+}
+
+五
+package Xiti8_5;
+import java.util.*;
+public class Quyingwen {
+public static void main(String[] args) {
+	
+
+	String regex = "[a-zA-Z]?";
+	Scanner a = new Scanner(System.in);
+	String b = new String();
+	b = a.next();
+	b = b.replaceAll(regex, "");
+	System.out.println(b);
+}
+
+}
+
+六
+package Xiti8_6;
+
+public class Shuru {
+public static void main(String[] args) {
+	double b;
+	Tiqu tiqu = new Tiqu();
+	String a = "数学87分，物理76分，英语96分";
+	b = tiqu.tiqu(a);
+	System.out.println("总成绩是："+b+"平均数是："+b/3);
+}
+}
+
+package Xiti8_6;
+import java.util.*;
+public class Tiqu {
+
+	double tiqu(String a)
+	{
+		Scanner b = new Scanner(a);
+		double sum = 0;
+		b.useDelimiter("[^0123456789.]+");
+		while (b.hasNext())
+		{
+			try{
+				double c = b.nextDouble();
+						sum = sum + c;
+					}
+			catch(InputMismatchException exp){
+				String c = b.next();				
+			}
+		}
+		return sum;
+	}
+
+}
+

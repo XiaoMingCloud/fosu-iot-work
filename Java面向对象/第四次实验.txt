@@ -1,0 +1,286 @@
+第九章 广告牌
+package Dishicishiyan;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.lang.reflect.Constructor;
+public class MainClass extends JFrame{
+	JTextField inputname;
+	JButton button1;
+	JPanel panel1,panel2;
+	public static void main(String[] args) {
+		MainClass win = new MainClass();
+	}
+	public MainClass() {
+		setTitle("广告牌");
+		panel1 = new JPanel();
+		panel2 = new JPanel();
+		panel2.setLayout(new BorderLayout());
+		inputname = new JTextField("Corp",12);
+		button1 = new JButton("显示广告");
+		button1.addActionListener(new ButtonListener());
+		panel1.add(inputname);
+		panel1.add(button1);
+		add(panel1,BorderLayout.NORTH);
+		add(panel2,BorderLayout.CENTER);
+		setVisible(true);
+		setBounds(0,0,1000,589);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	class ButtonListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			String name = inputname.getText();
+			System.gc();
+			try {
+				Class<?> cs = Class.forName(name);
+				Constructor<?>gouzhao = cs.getDeclaredConstructor();
+				Corp corp =  (Corp)gouzhao.newInstance();
+				panel2.removeAll();
+				panel2.add(corp.getCorpAD()); 
+				panel2.repaint();
+				validate();
+			}
+			catch(Exception exp) {
+				System.out.println(exp);
+			}
+		}
+	}
+    
+}
+
+package Dishicishiyan;
+import javax.swing.*;
+public abstract class Corp {
+	public abstract JPanel getCorpAD();
+}
+
+package Dishicishiyan;
+import javax.swing.*;
+import java.awt.*;
+public class DrawCorp extends Corp{
+
+	public JPanel getCorpAD() {
+		Mainban panel = new Mainban();
+		return panel;
+	}
+	class Mainban extends JPanel{
+		Toolkit tool;
+		Image image1,image2;
+		void Mianban(){
+			setBackground(Color.yellow);
+			tool = getToolkit();
+			image1 = tool.getImage("one,jpg");
+			image1 = tool.getImage("two,jpg");
+		}
+		public void paint(Graphics g) {
+			super.paint(g);
+			g.setXORMode(Color.red);
+			int w = getBounds().width;
+			int h =getBounds().height;
+			g.drawImage(image1,0,0,w,h,this);
+			g.drawImage(image2,0,0,w,h,this);
+		}
+	}
+}
+
+package Dishicishiyan;
+import javax.swing.*;
+import java.awt.*;
+public class GXYCorp extends Corp{
+	JPanel panel;
+	JButton button;
+	JTextField inputname;
+	JTextArea area;
+	public GXYCorp() {
+		panel = new JPanel();
+		panel.setLayout(new BorderLayout());
+		inputname = new JTextField("java",15);
+		area = new JTextArea(5,18);
+		button = new JButton("反转字符串");
+		JPanel north = new JPanel();
+		north.add(inputname);
+		north.add(button);
+		panel.add(north,BorderLayout.NORTH);
+		panel.add(new JScrollPane(area),BorderLayout.CENTER);
+		button.addActionListener((e)->{
+                                        String str = inputname.getName();
+                                        StringBuffer buffer = new StringBuffer(str);
+                                        buffer = buffer.reverse();
+                                        area.append("\n"+buffer);
+                                        		
+		                              });
+	}
+	public JPanel getCorpAD() {
+		return panel;
+	}
+}
+
+第九章 3
+package Xiti9_3;
+
+public class Zhu {
+
+	public static void main(String[] args) {
+		WindowTixing tixing = new WindowTixing();
+	    tixing.window();
+	}
+	
+}
+
+package Xiti9_3;
+import javax.swing.*;
+import java.awt.*;
+public class WindowTixing extends JFrame{
+    JTextField a,b,h; 
+	Tixing tixing;
+	JTextArea area;
+	JButton button;
+	Jianshiqi jianshiqi;
+	JFrame j;
+	void window(){
+		init();
+		j.setVisible(true);
+		 j.setSize(500, 500);
+		j.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	}
+	void init(){
+		tixing = new Tixing();
+		j = new JFrame("计算");
+		a = new JTextField(5);
+		b = new JTextField(5);
+		h = new JTextField(5);
+		area = new JTextArea();
+		button = new JButton("计算面积");
+		JPanel mianban = new JPanel();
+		JLabel a1 = new JLabel("上底");
+		JLabel b1 = new JLabel("下底");
+		JLabel h1= new JLabel("高");
+		mianban.add(a1);
+		mianban.add(a);
+		mianban.add(b1);
+		mianban.add(b);
+		mianban.add(h1);
+		mianban.add(h);
+		mianban.add(button);
+		area.setEditable(false);
+		jianshiqi = new Jianshiqi();
+		jianshiqi.setview(this);
+		button.addActionListener(jianshiqi);
+		j.add(mianban,BorderLayout.NORTH);
+		j.add(new JScrollPane(area),BorderLayout.CENTER);
+	}
+	
+}
+
+package Xiti9_3;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+public class Jianshiqi implements ActionListener{
+
+	WindowTixing view;
+	void setview(WindowTixing view) {
+		this.view = view;
+	}
+	public void actionPerformed(ActionEvent e)
+	{
+		try {
+		double a =Double.parseDouble(view.a.getText().trim());//trim的作用是去除字符串左右的空格
+	    double b =Double.parseDouble(view.b.getText().trim());
+	    double h =Double.parseDouble(view.h.getText().trim());
+	    view.tixing.fuzhi(a, b, h);
+	    double area = view.tixing.getarea();
+	    view.a.setText(""+view.tixing.a);
+	    view.b.setText(""+view.tixing.b);
+	    view.h.setText(""+view.tixing.h);
+	    String strarea = String.format("%.3f",view.tixing.area);
+	    view.area.append("\n面积（保留3为小数）:\n"+strarea);
+		}
+		catch(Exception ex) {
+			view.area.append("\n"+ex);
+		}
+	}
+}
+
+package Xiti9_3;
+
+public class Tixing {
+
+	double a,b,h,area;
+	double getarea() {
+		area = (a+b)*h/2;
+		return area;
+		
+	}
+	void fuzhi(double a,double b,double h)
+		{
+			this.a = a;
+			this.b = b;
+			this.h = h;
+		}
+}
+
+第十章 2
+package Xiti10_2;
+import java.io.*;
+public class Zhu {
+public static void main(String[] args) {
+	File file1 = new File("E:/111.txt");
+	File file2 = new File("E:/222.txt");
+	int i =0;
+	try {
+		//Reader in = new FileReader(file1);
+		BufferedReader buffreader =new BufferedReader(new InputStreamReader(new FileInputStream(file1), "UTF-8"));//in 时中文乱码
+		//Writer out = new FileWriter(file2);
+		BufferedWriter buffwriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file2), "UTF-8"));
+		String a = null;
+		while((a = buffreader.readLine())!=null) {
+			i++;
+			a = i + " " + a;
+			buffwriter.write(a);
+			buffwriter.newLine();
+		}
+		buffwriter.close();
+		//out.close();
+		buffreader = new BufferedReader(new InputStreamReader(new FileInputStream(file2), "UTF-8"));
+		while((a = buffreader.readLine())!=null)
+		{
+			System.out.println(a);
+		}
+		buffreader.close();
+		//in.o=close();
+	}
+	catch(IOException e) {
+		System.out.println(e);
+	}
+}
+}
+
+第十章 3
+package Xiti10_3;
+import java.util.*;
+import java.io.*;
+public class Zhu {
+public static void main(String[] args) {
+	File file = new File("E:/shouju.txt");//保存txt的文本时把编译格式改成ANSL不然存在中文会无法正常输出
+	Scanner a = null;
+	double sum = 0;
+	double c = 0;
+	int i = 0;
+	try{
+	a = new Scanner(file);
+	a.useDelimiter("[^0123456789.]+");
+	while(a.hasNext()) {
+		c = a.nextDouble();
+		sum = sum +c;
+		i++;
+		System.out.println(c);}
+	                        
+	
+    sum = sum/i;
+    System.out.println("平均价格为："+sum);
+    }
+	catch(Exception exp){
+		System.out.println(exp);
+	                          }
+}
+}
