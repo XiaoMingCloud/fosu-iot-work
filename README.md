@@ -14,8 +14,8 @@
 
 如有任何问题或建议，可以通过以下方式联系我：
 
-- 邮箱：[]
-- GitHub：[]
+- 邮箱：[hunwangxiaoming@gmali.com]
+- GitHub：[https://github.com/XiaoMingCloud]
 
 感谢你使用本仓库，祝你在物联网工程的学习中取得优异成绩！
 

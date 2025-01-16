@@ -1,0 +1,32 @@
+# 指定编译器
+CC = gcc
+# 指定编译选项
+CFLAGS = -Wall -g
+
+# 目标文件
+TARGET = main
+
+# 源文件及头文件
+SRCS = main.c fun1.c fun2.c
+HEADERS = fun1_1.h fun1_2.h fun2_1.h fun2_2.h
+
+# 生成的对象文件
+OBJS = $(SRCS:.c=.o)
+
+# 默认目标
+all: $(TARGET)
+
+# 链接生成最终目标
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $(OBJS)
+
+# 编译各模块的对象文件
+%.o: %.c $(HEADERS)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# 清理目标
+clean:
+	rm -f $(OBJS) $(TARGET)
+
+# 声明伪目标
+.PHONY: all clean
